@@ -1,0 +1,142 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+
+<h2>Reports Dashboard</h2>
+
+<hr>
+
+<div class="row">
+
+    <div class="col-md-3 mb-4">
+        <div class="card card-stat shadow-sm border-0">
+            <div class="card-body">
+                <small class="text-muted">Total Assets</small>
+                <h2>{{ total_items }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card card-stat shadow-sm border-0">
+            <div class="card-body">
+                <small class="text-muted">Categories</small>
+                <h2>{{ total_categories }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card card-stat shadow-sm border-0">
+            <div class="card-body">
+                <small class="text-muted">Assigned Assets</small>
+                <h2>{{ total_assignments }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card card-stat shadow-sm border-0">
+            <div class="card-body">
+                <small class="text-muted">Transactions</small>
+                <h2>{{ total_transactions }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<h4>Low Stock Items</h4>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Asset Code</th>
+            <th>Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for item in low_stock_items %}
+
+        <tr>
+            <td>{{ item.asset_code }}</td>
+            <td>{{ item.name }}</td>
+            <td>
+                <span class="badge bg-danger">
+                    {{ item.quantity }}
+                </span>
+            </td>
+        </tr>
+
+    {% empty %}
+
+        <tr>
+            <td colspan="3">
+                No low stock items
+            </td>
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+<h4>Recent Transactions</h4>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Type</th>
+            <th>Qty</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for transaction in recent_transactions %}
+
+        <tr>
+
+            <td>{{ transaction.transaction_date }}</td>
+
+            <td>{{ transaction.item.name }}</td>
+
+            <td>
+            {% if transaction.transaction_type == 'IN' %}
+
+            <span class="badge bg-success">
+                IN
+            </span>
+
+            {% else %}
+
+            <span class="badge bg-danger">
+                OUT
+            </span>
+
+            {% endif %}
+            </td>
+
+            <td>{{ transaction.quantity }}</td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
