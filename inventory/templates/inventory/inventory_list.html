@@ -32,7 +32,7 @@ mb-4">
     </a>
 
 </div>
-
+<div class="table-responsive">
 <table id="inventoryTable" class="table table-hover align-middle">
 
     <thead>
@@ -60,20 +60,7 @@ mb-4">
 
             <td>{{ item.category }}</td>
 
-            <td>{% if item.quantity <= 5 %}
-                    <span class="badge bg-danger">
-                        Low Stock
-                    </span>
-                {% elif item.quantity <= 10 %}
-                    <span class="badge bg-warning">
-                        Moderate
-                    </span>
-                {% else %}
-                    <span class="badge bg-success">
-                        Available
-                    </span>
-                {% endif %}
-            </td>
+            <td>{{ item.quantity }}</td>
 
             {% if request.user.is_superuser %}
             <td>
@@ -131,26 +118,23 @@ mb-4">
     </tbody>
 
 </table>
-
+</div>
 {% endblock %}
-<script>
-$(document).ready(function () {
-    $('#inventoryTable').DataTable();
-});
-</script>
 
 <script>
-
 $(document).ready(function(){
 
     $('#inventoryTable').DataTable({
 
         pageLength:5,
 
-        responsive:true
+        responsive:true,
+
+        scrollX:true,
+
+        autoWidth:false
 
     });
 
 });
-
 </script>
