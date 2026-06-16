@@ -112,20 +112,171 @@
         }
 
         .subtitle{
+    text-align:center;
+    margin-bottom:25px;
+    color:rgba(
+        255,
+        255,
+        255,
+        .85
+    );
+}
+.form-control{
+    background:rgba(
+        255,
+        255,
+        255,
+        .9
+    );
+}
 
-            text-align:center;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus{
 
-            margin-bottom:25px;
+    -webkit-box-shadow:
+        0 0 0 1000px rgba(
+            255,
+            255,
+            255,
+            .9
+        ) inset;
 
-            opacity:.9;
-        }
+    -webkit-text-fill-color:#000;
+}
+        body{
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
+    min-height:100vh;
+}
+
+.login-card{
+    width:100%;
+    max-width:450px;
+
+    border:none;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    background:rgba(
+        255,
+        255,
+        255,
+        0.15
+    );
+
+    backdrop-filter:blur(15px);
+
+    box-shadow:0 10px 40px rgba(
+        0,
+        0,
+        0,
+        .2
+    );
+
+    color:white;
+}
+
+.logo{
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+.logo i{
+
+    font-size:50px;
+
+    color:#4f46e5;
+}
+
+.logo h2{
+
+    font-weight:700;
+
+    margin-top:10px;
+}
+
+.btn-login{
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    font-weight:600;
+}
+        @media(max-width:768px){
+
+    .login-card{
+
+        max-width:95%;
+
+        padding:25px;
+    }
+
+    .logo i{
+
+        font-size:40px;
+    }
+
+    .logo h2{
+
+        font-size:28px;
+    }
+
+    .form-control{
+
+        padding:12px;
+
+        font-size:14px;
+    }
+
+    .btn-login{
+
+        padding:12px;
+
+        font-size:15px;
+    }
+}
+        .form-control{
+
+    border-radius:12px;
+
+    padding:12px;
+
+    border:1px solid #d1d5db;
+}
+
+.form-control:focus{
+
+    box-shadow:none;
+
+    border-color:#4f46e5;
+}
+        .alert{
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+}
 
     </style>
 
 </head>
 
 <body>
-
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
 <div class="login-card">
 
     <div class="logo">
@@ -143,7 +294,25 @@
         Inventory Management System
 
     </p>
+{% if messages %}
 
+    {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+
+            {{ message }}
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
     <form method="POST">
 
         {% csrf_token %}
@@ -191,6 +360,23 @@
     </form>
 
 </div>
+</div>
+<script>
 
+setTimeout(function(){
+
+    document
+        .querySelectorAll('.alert')
+        .forEach(function(alert){
+
+            let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+
+            bsAlert.close();
+
+        });
+
+}, 4000);
+
+</script>
 </body>
 </html>

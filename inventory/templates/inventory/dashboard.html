@@ -45,6 +45,7 @@ track assignments and view real-time analytics.
 <hr>
 
 
+
 <div class="row">
 
     <div class="col-lg-3 col-md-6 col-12">
@@ -428,8 +429,44 @@ new Chart(
 
 );
 
-    responsive:true,
-maintainAspectRatio:false
+new Chart(
+    document.getElementById('movementChart'),
+    {
+        type: 'bar',
+
+        data: {
+            labels: [
+                'Stock In',
+                'Stock Out'
+            ],
+
+            datasets: [{
+                label: 'Transactions',
+
+                data: [
+                    {{ stock_in_count }},
+                    {{ stock_out_count }}
+                ],
+
+                backgroundColor: [
+                    '#22c55e',
+                    '#ef4444'
+                ]
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    }
+);
 </script>
 
 {% endblock %}

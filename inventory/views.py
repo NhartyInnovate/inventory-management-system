@@ -30,6 +30,9 @@ from .models import (
     StockTransaction
 )
 
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+
 def is_admin(user):
     return user.is_superuser
 
@@ -375,16 +378,10 @@ def reports(request):
     )
 
 def user_login(request):
-
     if request.method == 'POST':
 
-        username = request.POST.get(
-            'username'
-        )
-
-        password = request.POST.get(
-            'password'
-        )
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = authenticate(
             request,
@@ -392,29 +389,38 @@ def user_login(request):
             password=password
         )
 
-        if user is not None:
+        if user:
 
-            login(
+            login(request, user)
+            return redirect('dashboard')
+
+        else:
+
+            messages.error(
                 request,
-                user
-            )
-
-            return redirect(
-                'dashboard'
+                'Invalid username or password.'
             )
 
     return render(
         request,
-        'inventory/login.html'
-    )
+        'inventory/login.html')
+
 
 def user_logout(request):
 
+    request.session.pop(
+        'welcome_shown',
+        None
+    )
+
     logout(request)
 
-    return redirect(
-        'login'
+    messages.info(
+        request,
+        'You have been logged out successfully.'
     )
+
+    return redirect('login')
 
 def create_audit_log(
     user,
